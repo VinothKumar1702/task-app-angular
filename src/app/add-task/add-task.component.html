@@ -1,0 +1,51 @@
+
+<form>
+    <div class="container center_div">
+  <div class="form-group row">
+    <label for="task" class="col-sm-2 col-form-label">Task</label>
+    <div class="col-sm-5">
+        <input type="text" class="form-control" placeholder="task">
+      </div>
+  </div>
+  <div class="form-group row">
+    <label for="priority" class="col-sm-2 col-form-label">Priority</label>
+    <div class="col-sm-5">
+        <div class="slidecontainer">
+        <label style="text-align: left;width: 50%;">0</label>
+          <label style="text-align: right;width: 50%;">30</label>
+         <input type="range" min="0" max="30" class="slider">  
+          </div>
+      </div>
+  </div>
+  <div class="form-group row">
+      <label for="parentTask" class="col-sm-2 col-form-label">Parent Task</label>
+      <div class="col-sm-5">
+          <input type="text" class="form-control" placeholder="parent task">
+        </div>
+  </div>
+    <div class="form-group row">
+        <label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
+        <div class="col-sm-5">
+            <input type="date" class="form-control" placeholder="start date">
+          </div>
+    </div>
+      <div class="form-group row">
+          <label for="sendDate" class="col-sm-2 col-form-label">End Date</label>
+          <div class="col-sm-5">
+              <input type="date" class="form-control" placeholder="end date">
+            </div>
+     </div>
+  <div class=form-group>
+      <label class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-5">
+    <span>
+      <button class="add-button" type="button" class="btn btn-primary btn-md">Add</button>
+    </span>
+    
+    <span>
+        <button class ="add-button" type="reset" class="btn btn-primary btn-md pull-right">Reset</button>
+    </span>
+  </div>
+  </div>
+  </div>
+</form>
