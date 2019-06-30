@@ -1,51 +1,79 @@
+<div id=addtask class="container">
+  <form #taskForm="ngForm">
+      <div class="panel">
+          <div class="panel-heading">
+              <h3 class="panel-title">Add/Update Task</h3>
+          </div>
+          <div id=formbody class="panel-body">
+              <div class="form-group row">
+                  <label for="task" class="col-sm-2 col-form-label"> Task </label>
+                  <div class="col-sm-4">
+                      <input class="form-control" type="text" [(ngModel)]="task.task" name="task" id="task"
+                          placeholder="Task Name" required #taskName="ngModel" />
+                      <small *ngIf="!task.valid"></small>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 checkbox-inline col-form-label">
+                      &nbsp;&nbsp;&nbsp;<input type="checkbox" [(ngModel)]="task.parentTaskFlag" ng-init="task.parentTaskFlag=false"
+                          name="parentTaskFlag" (change)="changeEvent(task.parentTaskFlag)" [disabled]="disable">
+                      <strong>Parent Task</strong>
+                  </label>
+                  <div id=paddiv class="col-sm-4">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"> Priority </label>
+                  <div class="col-sm-4">
+                    <div class="slidecontainer">
+                        <label style="text-align: left;width: 50%;">0</label>
+                        <label style="text-align: right;width: 50%;">30</label>
+                      <input class="slidecontainer form-control" type="range" min="1" max="30" value="15" class="slider"
+                          id="myRange" [disabled]="disable" [(ngModel)]="task.priority" name="priority"
+                          >
+                        </div>
+                  </div>
+                 
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label pull-left"> Parent Task </label>
+                  <div class="col-sm-3">
+                      <input class="form-control" type="text" [(ngModel)]="task.parentTask" name="searchText"
+                          >
+                  </div>
+                  <div class="col-sm-2">
+                      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#parentTaskModal"
+                          [disabled]="disable">Search</button>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Start Date</label>
+                  <div id=paddiv class="col-sm-4">
+                      <input class="form-control" type="date" [(ngModel)]="task.startDate" name="startDate"
+                          [disabled]="disable">&nbsp;&nbsp;&nbsp;&nbsp;
 
-<form>
-    <div class="container center_div">
-  <div class="form-group row">
-    <label for="task" class="col-sm-2 col-form-label">Task</label>
-    <div class="col-sm-5">
-        <input type="text" class="form-control" placeholder="task">
-      </div>
-  </div>
-  <div class="form-group row">
-    <label for="priority" class="col-sm-2 col-form-label">Priority</label>
-    <div class="col-sm-5">
-        <div class="slidecontainer">
-        <label style="text-align: left;width: 50%;">0</label>
-          <label style="text-align: right;width: 50%;">30</label>
-         <input type="range" min="0" max="30" class="slider">  
+                  </div>
+
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">End Date</label>
+                  <div id=paddiv class="col-sm-4">
+                      <input class="form-control" type="date" [(ngModel)]="task.endDate" name="endDate" [disabled]="disable">
+                  </div>
+
+              </div>               
+              <div class="form-group row">
+                  <div class="col-md-3">
+                      <input type="button" [value]="editTaskFlag ? 'Update' : 'Add'" 
+                      class="btn btn-success pull-right" (click)="editTaskFlag ? editTask(task) : addTask(task); taskForm.reset();"
+                          [disabled]="!taskForm.form.valid" />
+                  </div>
+                  <div class="col-md-5">
+                      <button input type="button"  class="btn btn-primary" *ngIf="editTaskFlag" (click)=cancelTask(task)>Cancel</button>
+                      <button input type="reset" class="btn btn-primary" *ngIf="!editTaskFlag">Reset</button>
+                  </div>
+              </div>
           </div>
       </div>
-  </div>
-  <div class="form-group row">
-      <label for="parentTask" class="col-sm-2 col-form-label">Parent Task</label>
-      <div class="col-sm-5">
-          <input type="text" class="form-control" placeholder="parent task">
-        </div>
-  </div>
-    <div class="form-group row">
-        <label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
-        <div class="col-sm-5">
-            <input type="date" class="form-control" placeholder="start date">
-          </div>
-    </div>
-      <div class="form-group row">
-          <label for="sendDate" class="col-sm-2 col-form-label">End Date</label>
-          <div class="col-sm-5">
-              <input type="date" class="form-control" placeholder="end date">
-            </div>
-     </div>
-  <div class=form-group>
-      <label class="col-sm-2 col-form-label"></label>
-      <div class="col-sm-5">
-    <span>
-      <button class="add-button" type="button" class="btn btn-primary btn-md">Add</button>
-    </span>
-    
-    <span>
-        <button class ="add-button" type="reset" class="btn btn-primary btn-md pull-right">Reset</button>
-    </span>
-  </div>
-  </div>
-  </div>
-</form>
+  </form>
+</div>

@@ -1,0 +1,5 @@
+{
+    "/task":{
+    "target": "http://localhost:8220",
+    "secure": false
+    }
