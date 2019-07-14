@@ -1,0 +1,11 @@
+.form-control {
+    width: 100%;
+	padding: 7px;
+	border: none;
+	border:  1px solid rgb(37, 120, 214);
+	background: transparent;
+    margin-bottom: 5px;
+    font: 16px Arial, Helvetica, sans-serif;
+    font-size: 15px;
+	height: 30px;
+}

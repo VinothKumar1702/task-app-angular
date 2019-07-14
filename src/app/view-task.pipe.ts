@@ -2,15 +2,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Task } from './shared/taskshared/task.model';
 
 @Pipe(
-{ name: 'category'})
-export class CategoryPipe implements PipeTransform {
-    transform(tasks: Task[], args?: any): any[] {
-   
-        if (!args||!tasks) {
-            return tasks;
-        }
+{ name: 'category'}
+)
 
-        return tasks.filter(singleItem =>
-             singleItem.task.toLowerCase().indexOf(args.toLowerCase())!==-1);
-    }
+export class CategoryPipe implements PipeTransform {
+    transform(tasks: any[], searchText: string): any {
+        if (!tasks) {return [];}
+        if (!searchText) {return tasks;}
+        searchText = searchText.toLowerCase();
+        return tasks.filter(task => {
+          return (task.startDate.toLowerCase().includes(searchText) ||
+          task.endDate.toLowerCase().includes(searchText) ||
+            (task.priority).includes(searchText)
+          );
+        });
+      }
+    
 }

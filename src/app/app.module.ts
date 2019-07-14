@@ -10,6 +10,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddTaskComponent } from './add-task/add-task.component';
 import { ViewTaskComponent } from './view-task/view-task.component';
+import { AddProjectComponent } from './add-project/add-project.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { FilterUserPipe } from './filter-user.pipe';
 
 
 
@@ -18,7 +21,10 @@ import { ViewTaskComponent } from './view-task/view-task.component';
     AppComponent,
     AddTaskComponent,
     ViewTaskComponent,
-    CategoryPipe
+    CategoryPipe,
+    FilterUserPipe,
+    AddProjectComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,
