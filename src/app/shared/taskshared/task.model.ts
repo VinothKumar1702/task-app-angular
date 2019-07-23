@@ -8,5 +8,11 @@ export class Task{
 	parentTask: string;
 	priority: number;
 	parentTaskFlag:boolean;
+	user:string;
+	userId:number;
+	project:string;
+	projectId:number;
+	completed:string;
+	
 }
  

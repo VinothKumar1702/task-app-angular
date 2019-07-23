@@ -1,79 +1,198 @@
 <div id=addtask class="container">
-  <form #taskForm="ngForm">
-      <div class="panel">
-          <div class="panel-heading">
-              <h3 class="panel-title">Add/Update Task</h3>
-          </div>
-          <div id=formbody class="panel-body">
-              <div class="form-group row">
-                  <label for="task" class="col-sm-2 col-form-label"> Task </label>
-                  <div class="col-sm-4">
-                      <input class="form-control" type="text" [(ngModel)]="task.task" name="task" id="task"
-                          placeholder="Task Name" required #taskName="ngModel" />
-                      <small *ngIf="!task.valid"></small>
-                  </div>
+  <form id="add-task-form" [formGroup]="taskForm" (ngSubmit)="onAdd()" novalid>
+     <div class="panel">
+        <div class="panel-heading">
+           <h3 class="panel-title">Add/Update Task</h3>
+        </div>
+        <div id=formbody class="panel-body">
+           <div class="form-group row">
+              <div class="col-md-2">
+                 <label>Project</label>
               </div>
-              <div class="form-group row">
-                  <label class="col-sm-2 checkbox-inline col-form-label">
-                      &nbsp;&nbsp;&nbsp;<input type="checkbox" [(ngModel)]="task.parentTaskFlag" ng-init="task.parentTaskFlag=false"
-                          name="parentTaskFlag" (change)="changeEvent(task.parentTaskFlag)" [disabled]="disable">
-                      <strong>Parent Task</strong>
-                  </label>
-                  <div id=paddiv class="col-sm-4">
-                  </div>
+              <div class="col-sm-3">
+                 <input type="text" class="form-control" formControlName="project" id="project">
               </div>
-              <div class="form-group row">
-                  <label class="col-sm-2 col-form-label"> Priority </label>
-                  <div class="col-sm-4">
-                    <div class="slidecontainer">
-                        <label style="text-align: left;width: 50%;">0</label>
-                        <label style="text-align: right;width: 50%;">30</label>
-                      <input class="slidecontainer form-control" type="range" min="1" max="30" value="15" class="slider"
-                          id="myRange" [disabled]="disable" [(ngModel)]="task.priority" name="priority"
-                          >
-                        </div>
-                  </div>
-                 
+              <div class="col-sm-2">
+                 <button type="button" class="btn btn-info" id="search" data-toggle="modal" data-target="#ProjectModal"
+                    [disabled]="editable">Search</button>
               </div>
-              <div class="form-group row">
-                  <label class="col-sm-2 col-form-label pull-left"> Parent Task </label>
-                  <div class="col-sm-3">
-                      <input class="form-control" type="text" [(ngModel)]="task.parentTask" name="searchText"
-                          >
-                  </div>
-                  <div class="col-sm-2">
-                      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#parentTaskModal"
-                          [disabled]="disable">Search</button>
-                  </div>
+           </div>
+           <div class="form-group row">
+              <label for="task" class="col-sm-2 col-form-label"> Task </label>
+              <div class="col-sm-4">
+                 <input class="form-control" formControlName="task" type="text"  name="task" id="task"
+                 placeholder="Enter the task name..." required />
+                 <!--small *ngIf="!task.valid"></small-->
               </div>
-              <div class="form-group row">
-                  <label class="col-sm-2 col-form-label">Start Date</label>
-                  <div id=paddiv class="col-sm-4">
-                      <input class="form-control" type="date" [(ngModel)]="task.startDate" name="startDate"
-                          [disabled]="disable">&nbsp;&nbsp;&nbsp;&nbsp;
-
-                  </div>
-
+           </div>
+           <div class="form-group row">
+              <label class="col-sm-2 checkbox-inline col-form-label">
+              &nbsp;&nbsp;&nbsp;<input type="checkbox"  ng-init="task.parentTaskFlag=false"
+              name="parentTaskFlag" formControlName="parentTaskFlag" (change)="changeEvent(task.parentTaskFlag)" [disabled]="disable">
+              <strong>Parent Task</strong>
+              </label>
+              <div id=paddiv class="col-sm-4">
               </div>
-              <div class="form-group row">
-                  <label class="col-sm-2 col-form-label">End Date</label>
-                  <div id=paddiv class="col-sm-4">
-                      <input class="form-control" type="date" [(ngModel)]="task.endDate" name="endDate" [disabled]="disable">
-                  </div>
-
-              </div>               
-              <div class="form-group row">
-                  <div class="col-md-3">
-                      <input type="button" [value]="editTaskFlag ? 'Update' : 'Add'" 
-                      class="btn btn-success pull-right" (click)="editTaskFlag ? editTask(task) : addTask(task); taskForm.reset();"
-                          [disabled]="!taskForm.form.valid" />
-                  </div>
-                  <div class="col-md-5">
-                      <button input type="button"  class="btn btn-primary" *ngIf="editTaskFlag" (click)=cancelTask(task)>Cancel</button>
-                      <button input type="reset" class="btn btn-primary" *ngIf="!editTaskFlag">Reset</button>
-                  </div>
+           </div>
+           <div class="form-group row">
+              <label class="col-sm-2 col-form-label"> Priority </label>
+              <div class="col-sm-4">
+                 <div class="slidecontainer">
+                    <label style="text-align: left;width: 50%;">0</label>
+                    <label style="text-align: right;width: 50%;">30</label>
+                    <input class="slidecontainer form-control" type="range" min="1" max="30" value="0" class="slider"
+                    formControlName="priority" id="myRange" [disabled]="this.taskForm.get('parentTaskFlag').value"  name="priority"
+                    >
+                 </div>
               </div>
-          </div>
-      </div>
+           </div>
+           <div class="form-group row">
+              <label class="col-sm-2 col-form-label pull-left"> Parent Task </label>
+              <div class="col-sm-3">
+                 <input class="form-control" type="text" name="searchText" formControlName="parentTask">
+              </div>
+              <div class="col-sm-2">
+               <button type="button" class="btn btn-info btn-sm" id="searchParent" data-toggle="modal" data-target="#ParentModal"
+               [disabled]="taskForm.get('parentTaskFlag').value || !taskForm.get('project').value">Search</button>
+              </div>
+           </div>
+           <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Start Date</label>
+              <div id=paddiv class="col-sm-4">
+                 <input class="form-control" type="date"  name="startDate" formControlName="startDate"
+                 [disabled]="this.taskForm.get('parentTaskFlag').value">&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
+           </div>
+           <div class="form-group row">
+              <label class="col-sm-2 col-form-label">End Date</label>
+              <div id=paddiv class="col-sm-4">
+                 <input class="form-control" type="date" formControlName="endDate" name="endDate"
+                  [disabled]="this.taskForm.get('parentTaskFlag').value">
+              </div>
+           </div>
+           <div class="form-group row">
+              <div class="col-md-2">
+                 <label>User</label>
+              </div>
+              <div class="col-sm-3">
+                 <input type="text" class="form-control" formControlName="user" id="user">
+              </div>
+              <div class="col-sm-2">
+               <button type="button" class="btn btn-info btn-sm" id="searchUser" data-toggle="modal" data-target="#UserModal"
+               [disabled]="this.taskForm.get('parentTaskFlag').value">Search</button>
+              </div>
+           </div>
+           <div class="form-group row">
+            <button type="submit" class="btn btn-info" id="add" style="margin-left: 200px" 
+             [disabled]="((this.taskForm.get('parentTaskFlag').value) ? false : !(this.taskForm.get('user').value)) 
+            || !(this.taskForm.valid)" *ngIf="!editable">Add</button>
+            <button type="button" style="margin-left: 200px" class="btn btn-secondary" id="add"
+             [disabled]="((this.taskForm.get('parentTaskFlag').value) ? false : !(this.taskForm.get('user').value)) 
+            || !(this.taskForm.valid)" *ngIf="editable" (click)="onUpdate()">Update</button>
+            <button type="button" class="btn btn-dark" style="margin-left: 100px" id="reset" 
+            (click)="resetForm()" *ngIf="!editable">Reset</button>
+            <button type="button" class="btn btn-danger" style="margin-left: 100px" id="reset"
+             (click)="cancelEdit()" *ngIf="editable">Cancel</button>
+           </div>
+        </div>
+     </div>
   </form>
+</div>
+<!--Project Modal-->
+<div class="modal fade" id="ProjectModal" tabindex="-1" role="dialog" aria-labelledby="ProjectModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h6 class="modal-title" id="ProjectModalLabel">Select the project to be assigned the task :</h6>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchProject">
+           <br>
+           <br>
+           <div class="input-group mb-3" *ngFor="let project of projects | filterProject : searchProject : 'name'">
+              <div class="input-group-prepend">
+                 <div class="input-group-text">
+                    <input type="radio" value="{{project.projectId}}-{{project.project}}" [(ngModel)]="selectedProject">
+                 </div>
+              </div>
+              &nbsp; {{project.project}}
+           </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="saveProject()" [disabled]="!selectedProject">Select
+                  </button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>         
+        </div>
+     </div>
+  </div>
+</div>
+<!--Parent Modal-->
+<div class="modal fade" id="ParentModal" tabindex="-1" role="dialog" aria-labelledby="ParentModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h6 class="modal-title" id="ParentModalLabel">Select the parent task :</h6>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <input type="text" class="form-control"  placeholder="Search..." [(ngModel)]="searchParent">
+           <br>
+           <br>
+           <div class="input-group mb-3" *ngFor="let p of parentsList | filterParentTask : searchParent">
+              <div class="input-group-prepend">
+                 <div class="input-group-text">
+                    <input type="radio" value="{{p.parentId}}-{{p.parentTask}}" [(ngModel)]="selectedParent">
+                 </div>
+              </div>
+              &nbsp; {{p.parentTask}}
+           </div>
+        </div>
+        <div class="modal-footer">        
+           <button type="button" class="btn btn-primary" (click)="saveParent()" [disabled]="!selectedParent">
+           Select</button>
+           <button type="button" class="btn btn-secondary" (click)="clearParent()" id="clearParent">Clear Parent
+               Task</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+     </div>
+  </div>
+</div>
+<!--User Modal-->
+<div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h6 class="modal-title" id="UserModalLabel">Select the user to be assigned as task owner:</h6>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <input type="text" class="form-control"  placeholder="Search..." [(ngModel)]="searchUser">
+           <br>
+           <br>
+           <div class="input-group mb-3" *ngFor="let user of usersList | filterUser : searchUser ">
+              <div class="input-group-prepend">
+                 <div class="input-group-text">
+                    <input type="radio" value="{{user.userId }}-{{user.firstName}} {{user.lastName}}"
+                    [(ngModel)]="selectedUser">
+                 </div>
+              </div>
+              &nbsp; {{user.employeeId }} - {{user.firstName | titlecase}} {{user.lastName | titlecase}}
+           </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="saveUser()" [disabled]="!selectedUser">
+                  Select</button>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>         
+        </div>
+     </div>
+  </div>
 </div>

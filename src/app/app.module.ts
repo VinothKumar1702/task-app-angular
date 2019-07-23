@@ -13,6 +13,8 @@ import { ViewTaskComponent } from './view-task/view-task.component';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { FilterUserPipe } from './filter-user.pipe';
+import { FilterProjectPipe } from './filter-project.pipe';
+import { FilterParentTaskPipe } from './filter-parent-task.pipe';
 
 
 
@@ -24,7 +26,9 @@ import { FilterUserPipe } from './filter-user.pipe';
     CategoryPipe,
     FilterUserPipe,
     AddProjectComponent,
-    AddUserComponent
+    AddUserComponent,
+    FilterProjectPipe,
+    FilterParentTaskPipe
   ],
   imports: [
     BrowserModule,

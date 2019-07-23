@@ -1,24 +1,36 @@
 <div class="container-fluid" style="margin-top:20px">
+  <div class="outer-div">
   <div class="panel">
     <div class="panel-heading">
         <h3 class="panel-title">View Task</h3>
     </div>
 
     <div class="row">
-      <div class="col-md-4" id="searchLabel">
-        <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="search"
-          (ngModelChange)="onSearch(search)" />
+      <div class="col-md-1" id="sortLabel">
+        <label> Project</label>
       </div>
-      <div class="col-md-1 " id="sortLabel">
+      <div class="col-md-3" id="sortLabel">
+        <input type="text" [(ngModel)]="project" class="form-control" [disabled]="true">
+      </div>
+      <div class="col-md-1" id="sortLabel">
+        <button type="button" class="btn btn-success btn-sm" id="search" data-toggle="modal"
+          data-target="#ProjectModal">Search</button>
+      </div>
+    </div>
+    <div class="row">
+    <br/>
+    </div>
+      <div class="col-md-2 row" id="sortLabel" style="margin-top: 10px">
         <label>Sort By Task:</label>
       </div>
-    <div class="col-sm-7"> 
+    <div class="col-sm-5"> 
       <button class="btn btn-info" id="sortByStartDate" (click)="sort('startDate')">Start Date</button>&nbsp;&nbsp;
       <button class="btn btn-info" id="sortByEndDate" (click)="sort('endDate')">End Date</button>&nbsp;&nbsp;
       <button class="btn btn-info" id="sortByPriority" (click)="sort('priority')">Priority</button>&nbsp;&nbsp;
-      <button class="btn btn-info" id="sort" (click)="sort()">Completed</button>
+      <button class="btn btn-info" id="sort" (click)="sort('completed')">Completed</button>&nbsp;&nbsp;
+      <button class="btn btn-info" id="clearFilter" (click)="clearFilter()">Clear Filter</button>
   </div>
-</div>
+
 <div class="container-fluid">
 
     <table class="table table-striped table-condensed">
@@ -29,6 +41,7 @@
             <th scope="col">Priority</th>
             <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -38,14 +51,51 @@
             <td scope="row">{{task1.priority}}</td>
             <td scope="row">{{task1.startDate| date: 'MM/dd/yyyy' }}</td>
             <td scope="row">{{task1.endDate | date: 'MM/dd/yyyy'}}</td>
+            <td scope="row">{{task1.completed| titlecase}}</td>
             <td>
-                <button class="btn btn-primary" (click)="editTask(task1)">Edit</button>&nbsp;&nbsp;
-                <button class="btn btn-danger" (click)="deleteTask(task1.taskId,i)">EndTask</button>
+                <button class="btn btn-primary" [disabled]="task1.completed == 'COMPLETED'" (click)="editTask(task1.taskId)">Edit</button>&nbsp;&nbsp;
+                <button class="btn btn-danger" [disabled]="task1.completed == 'COMPLETED'" (click)="endTask(task1.taskId,i)">EndTask</button>
             </td>
           </tr>
             
         </tbody>
       </table>
     </div>    
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="ProjectModal" tabindex="-1" role="dialog" aria-labelledby="ProjectModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="ProjectModalLabel">Select the project :</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchProject">
+          <br>
+          <br>
+          <div class="input-group mb-3" *ngFor="let project of projects | filterProject : searchProject : 'name'">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="radio" value="{{project.projectId}}-{{project.project}}" [(ngModel)]="selectedProject">
+              </div>
+            </div>
+            {{project.project}}
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="saveProject()" [disabled]="!selectedProject">
+                Select</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+        </div>
+      </div>
     </div>
   </div>

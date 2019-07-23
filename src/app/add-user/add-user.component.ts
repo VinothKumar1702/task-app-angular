@@ -129,9 +129,6 @@ export class AddUserComponent implements OnInit {
     console.log(this.addUserForm.value);
     console.log('getting sqaved result id on save' + this.edit_id);
     this.user_keyed = this.addUserForm.value;
-    // this.user_keyed.firstName = this.addUserForm.get('firstName').value;
-    // this.user_keyed.lastName = this.addUserForm.get('lastName').value;
-    // this.user_keyed.employeeId = this.addUserForm.get('employeeId').value;
     this.user_keyed.userId = this.edit_id;
     console.log(this.user_keyed);
     this.userService.updateuser(this.user_keyed).subscribe(data => {

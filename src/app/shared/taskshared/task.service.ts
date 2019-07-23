@@ -16,32 +16,54 @@ const httpOptions = {
   providedIn: 'root'
 }) 
 export class TaskService {
-
+  
   private taskUrl = window["apiBaseUrl"]+"/task";
   private rootUrl = window["apiBaseUrl"];
-  private deleteUrl = window["apiBaseUrl"]+"/task/delete";
+  private endTaskUrl = this.taskUrl+"/end";
 
   public task = null;
   public editTaskFlag = false;
 
   constructor(private http: HttpClient) { }
 
-  addTask (task: Task): Observable<void> {
+  getParentTaskById(parentTaskId:number): Observable<ParentTask>{
+	return this.http.get<ParentTask>(this.rootUrl+"/parent-task/view/"+parentTaskId)
+      .pipe(
+        tap(() => this.log(`fetched ParentTaskById`)),
+       catchError(this.handleError<ParentTask>('getParentTaskById'))
+      );
+  }
+  getTaskById(taskId:number): Observable<Task>{
+    return this.http.get<Task>(this.taskUrl+"/view/"+taskId)
+        .pipe(
+          tap(() => this.log(`fetched getTaskById`)),
+         catchError(this.handleError<Task>('getTaskById'))
+        );
+    }
+    getTasksByProjectId(projectId:number):Observable<Task[]>{
+      return this.http.get<Task[]>(this.rootUrl+"/task/view-by-project/"+projectId)
+      .pipe(
+        tap(() => this.log(`fetched projectId`)),
+       catchError(this.handleError<Task[]>('projectId'))
+      );
+    }
+
+  addTask(tempTask: Task) : Observable<Task> {
     var addUrl = this.taskUrl + "/add";
-    return this.http.post<any>(addUrl, task, httpOptions).pipe(
+    return this.http.post<Task>(addUrl, tempTask, httpOptions).pipe(
       tap(() => this.log(`added task`)),
       catchError(this.handleError<Task>('addTask'))
     );
   }
 
-  deleteTask (taskId: number): Observable<Task> {
+  endTask (taskId: number): Observable<Task> {
     window.location.hash = String(taskId);
     let params = new HttpParams()
     .set('taskId',  window.location.hash = String(taskId));
-    var deleteUr = `${this.deleteUrl}?${params}`;
-    return this.http.delete<Task>(deleteUr,httpOptions).pipe(
-      tap(() => this.log(`deleted task`)),
-      catchError(this.handleError<Task>('deleteTask'))
+    var endUrl = `${this.endTaskUrl}?${params}`;
+    return this.http.post<Task>(endUrl,httpOptions).pipe(
+      tap(() => this.log(`end task`)),
+      catchError(this.handleError<Task>('end'))
     );
   }
 

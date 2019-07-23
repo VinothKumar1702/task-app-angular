@@ -69,9 +69,9 @@ export class UserService {
     return this.http.get<User>(getUrl ,this.httpOptions);
 
   }
-  getuserByProjectId(id: number): Observable<User> {
-    console.log(' in get user service' + id);
-    return this.http.get<User>(this.baseUrl + 'getuserbyproject/' + id );
+  getuserByProjectId(projectId: number): Observable<User> {
+    console.log(' in get user service' + projectId);
+    return this.http.get<User>(this.baseUrl + 'getuserbyproject/' + projectId );
   }
 
   // PUT method to update user
