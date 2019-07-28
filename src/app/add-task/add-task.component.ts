@@ -172,14 +172,14 @@ export class AddTaskComponent implements OnInit {
       })
     } else {
       console.log('Child task')
-      
-      this.addTaskModel.projectId = this.selectedProject?+this.selectedProject.split('-')[0].trim():null;
+      this.addTaskModel = this.taskForm.value;
       this.addTaskModel.project = this.selectedProject?this.selectedProject.split('-')[1].trim():null;
+      this.addTaskModel.projectId = this.selectedProject?+this.selectedProject.split('-')[0].trim():null;
       this.addTaskModel.userId = this.selectedUser?+this.selectedUser.split('-')[0].trim():null;
       this.addTaskModel.user = this.selectedUser? this.selectedUser.split('-')[1].trim():null;
       this.addTaskModel.parentId = this.selectedParent ? +this.selectedParent.split('-')[0].trim() : null;
       this.addTaskModel.parentTask = this.selectedParent ? this.selectedParent.split('-')[1].trim() : null;
-      this.addTaskModel = this.taskForm.value;
+     
       console.log(this.addTaskModel);
       this.taskService.addTask(this.addTaskModel).subscribe(data => {
         console.log(this.addTaskModel);
@@ -190,6 +190,7 @@ export class AddTaskComponent implements OnInit {
         console.log(error);
       });
     }
+    this.router.navigate(['/view-task']);
   }
   onUpdate(){
     this.addTask = this.taskForm.value;
@@ -243,6 +244,7 @@ export class AddTaskComponent implements OnInit {
         console.log(error);
       })
     }
+    this.router.navigate(['/view-task']);
   }
   cancelEdit() {
     this.router.navigate(['/view-task'])
