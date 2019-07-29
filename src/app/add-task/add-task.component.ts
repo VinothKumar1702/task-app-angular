@@ -26,6 +26,8 @@ export class AddTaskComponent implements OnInit {
 
   parentTasks: ParentTask[]=[];
   task: Task[];
+  tasks: Task[]=[];
+  filteredTasks: Task[];
   addTaskModel: Task;
   tempTask: Task;
   addTask:Task;
@@ -170,6 +172,7 @@ export class AddTaskComponent implements OnInit {
         this.error = 'Atleast one of the field has error !!';
         console.log(error)
       })
+      
     } else {
       console.log('Child task')
       this.addTaskModel = this.taskForm.value;
@@ -190,7 +193,7 @@ export class AddTaskComponent implements OnInit {
         console.log(error);
       });
     }
-    this.router.navigate(['/view-task']);
+    
   }
   onUpdate(){
     this.addTask = this.taskForm.value;
@@ -245,6 +248,11 @@ export class AddTaskComponent implements OnInit {
       })
     }
     this.router.navigate(['/view-task']);
+        this.taskService.getAllTasks()
+        .subscribe(tasks => {
+          this.tasks = tasks;
+          this.filteredTasks = this.tasks;
+        })
   }
   cancelEdit() {
     this.router.navigate(['/view-task'])
