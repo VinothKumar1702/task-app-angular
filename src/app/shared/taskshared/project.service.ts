@@ -17,7 +17,7 @@ const httpOptions = {
 })
 export class ProjectService {
   
-  baseUrl = 'http://localhost:8220/fse/project';
+  baseUrl = 'http://localhost:8081/fse/project';
 
   constructor(private _http: HttpClient) { }
 
