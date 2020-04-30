@@ -23,7 +23,7 @@
     "@types/jquery": "^3.3.30",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ngx-filter-pipe": "^2.1.2",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.5.2",
